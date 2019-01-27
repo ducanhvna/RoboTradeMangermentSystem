@@ -8432,3 +8432,5 @@ traders/__pycache__/models.cpython-36.pyc
 traders/migrations/0001_initial.py
 traders/migrations/__pycache__/0001_initial.cpython-36.pyc
 traders/migrations/__pycache__/__init__.cpython-36.pyc
+common/migrations/0002_auto_20190127_2140.py
+common/migrations/__pycache__/0002_auto_20190127_2140.cpython-36.pyc

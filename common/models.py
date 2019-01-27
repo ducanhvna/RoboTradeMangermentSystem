@@ -5,5 +5,5 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     """ Hồ sơ các nhân của user
     """
-    user = models.OneToOneField(User, on_delete= models.CASCADE)
+    user = models.ForeignKey(User, on_delete= models.CASCADE)
     name = models.CharField('Họ và tên', max_length = 255)
