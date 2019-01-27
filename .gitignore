@@ -8144,3 +8144,7 @@ env/Scripts/pip.exe
 env/Scripts/pip3.6.exe
 env/Scripts/pip3.exe
 env/Scripts/pip3.exe
+RoboTradeMangermentSystem/__pycache__/__init__.cpython-36.pyc
+RoboTradeMangermentSystem/__pycache__/settings.cpython-36.pyc
+RoboTradeMangermentSystem/__pycache__/urls.cpython-36.pyc
+RoboTradeMangermentSystem/__pycache__/wsgi.cpython-36.pyc
