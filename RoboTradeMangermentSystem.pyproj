@@ -21,6 +21,20 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="accounts\admin.py" />
+    <Compile Include="accounts\apps.py" />
+    <Compile Include="accounts\migrations\__init__.py" />
+    <Compile Include="accounts\models.py" />
+    <Compile Include="accounts\tests.py" />
+    <Compile Include="accounts\views.py" />
+    <Compile Include="accounts\__init__.py" />
+    <Compile Include="backtests\admin.py" />
+    <Compile Include="backtests\apps.py" />
+    <Compile Include="backtests\migrations\__init__.py" />
+    <Compile Include="backtests\models.py" />
+    <Compile Include="backtests\tests.py" />
+    <Compile Include="backtests\views.py" />
+    <Compile Include="backtests\__init__.py" />
     <Compile Include="common\admin.py" />
     <Compile Include="common\apps.py" />
     <Compile Include="common\migrations\__init__.py" />
@@ -29,21 +43,54 @@
     <Compile Include="common\urls.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="common\utils.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="common\views.py" />
     <Compile Include="common\__init__.py" />
     <Compile Include="manage.py" />
+    <Compile Include="robos\admin.py" />
+    <Compile Include="robos\apps.py" />
+    <Compile Include="robos\migrations\__init__.py" />
+    <Compile Include="robos\models.py" />
+    <Compile Include="robos\tests.py" />
+    <Compile Include="robos\views.py" />
+    <Compile Include="robos\__init__.py" />
     <Compile Include="RoboTradeMangermentSystem\settings.py" />
     <Compile Include="RoboTradeMangermentSystem\urls.py" />
     <Compile Include="RoboTradeMangermentSystem\wsgi.py" />
     <Compile Include="RoboTradeMangermentSystem\__init__.py" />
+    <Compile Include="traders\admin.py" />
+    <Compile Include="traders\apps.py" />
+    <Compile Include="traders\migrations\__init__.py" />
+    <Compile Include="traders\models.py" />
+    <Compile Include="traders\tests.py" />
+    <Compile Include="traders\views.py" />
+    <Compile Include="traders\__init__.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="accounts\" />
+    <Folder Include="accounts\migrations\" />
+    <Folder Include="accounts\templates\" />
+    <Folder Include="accounts\templates\accounts\" />
+    <Folder Include="backtests\" />
+    <Folder Include="backtests\migrations\" />
+    <Folder Include="backtests\templates\" />
+    <Folder Include="backtests\templates\backtests\" />
     <Folder Include="common\" />
     <Folder Include="common\migrations\" />
     <Folder Include="common\templates\" />
     <Folder Include="common\templates\common\" />
+    <Folder Include="robos\" />
+    <Folder Include="robos\migrations\" />
+    <Folder Include="robos\templates\" />
+    <Folder Include="robos\templates\robos\" />
     <Folder Include="static\" />
     <Folder Include="RoboTradeMangermentSystem" />
+    <Folder Include="traders\" />
+    <Folder Include="traders\migrations\" />
+    <Folder Include="traders\templates\" />
+    <Folder Include="traders\templates\traders\" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
@@ -57,11 +104,15 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="accounts\templates\accounts\index.html" />
+    <Content Include="backtests\templates\backtests\index.html" />
     <Content Include="common\templates\common\index.html" />
     <Content Include="Procfile" />
     <Content Include="requirements.txt" />
+    <Content Include="robos\templates\robos\index.html" />
     <Content Include="runtime.txt" />
     <Content Include="static\mysite.css" />
+    <Content Include="traders\templates\traders\index.html" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
   <ProjectExtensions>
