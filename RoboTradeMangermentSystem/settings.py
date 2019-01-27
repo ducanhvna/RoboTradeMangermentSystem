@@ -16,7 +16,6 @@ import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -74,12 +73,14 @@ WSGI_APPLICATION = 'RoboTradeMangermentSystem.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+DATABASE_URL='postgres://ewzintuhygqwcx:ac3e2cf0d00f6f0e4cb72df5e3089608c10467012cfcea6d2a5cf494b0747f6b@ec2-54-225-89-195.compute-1.amazonaws.com:5432/d1qt25cjei8849'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    #'default': {
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.postgresql',,
+    'default': dj_database_url.config(default=DATABASE_URL)
 }
 
 
@@ -174,6 +175,7 @@ ADMIN_EMAIL = "ducanhvna@outlook.com"
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
 
 try:
     from .dev_settings import *
