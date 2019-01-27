@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -170,6 +171,9 @@ SG_PWD = os.getenv('SG_PWD', '')
 MANDRILL_API_KEY = os.getenv('MANDRILL_API_KEY', '')
 
 ADMIN_EMAIL = "ducanhvna@outlook.com"
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
 
 try:
     from .dev_settings import *
