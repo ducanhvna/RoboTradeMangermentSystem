@@ -8148,3 +8148,11 @@ RoboTradeMangermentSystem/__pycache__/__init__.cpython-36.pyc
 RoboTradeMangermentSystem/__pycache__/settings.cpython-36.pyc
 RoboTradeMangermentSystem/__pycache__/urls.cpython-36.pyc
 RoboTradeMangermentSystem/__pycache__/wsgi.cpython-36.pyc
+common/__pycache__/__init__.cpython-36.pyc
+common/__pycache__/admin.cpython-36.pyc
+common/__pycache__/models.cpython-36.pyc
+common/__pycache__/urls.cpython-36.pyc
+common/__pycache__/views.cpython-36.pyc
+common/migrations/__pycache__/__init__.cpython-36.pyc
+obj/Debug/RoboTradeMangermentSystem.pyproj.CoreCompileInputs.cache
+obj/Debug/RoboTradeMangermentSystem.pyproj.FileListAbsolute.txt
