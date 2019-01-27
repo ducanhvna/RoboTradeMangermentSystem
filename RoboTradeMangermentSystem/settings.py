@@ -118,3 +118,57 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+# AUTH_USER_MODEL = 'common.User'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+COMPRESS_ROOT = BASE_DIR + '/static/'
+COMPRESS_URL = STATIC_URL
+COMPRESS_ENABLED = True
+
+COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter', 'compressor.filters.cssmin.CSSMinFilter']
+COMPRESS_REBUILD_TIMEOUT = 5400
+
+
+COMPRESS_OUTPUT_DIR = 'CACHE'
+COMPRESS_URL = STATIC_URL
+COMPRESS_ENABLED = True
+
+COMPRESS_PRECOMPILERS = (
+    ('text/less', 'lessc {infile} {outfile}'),
+    ('text/x-sass', 'sass {infile} {outfile}'),
+    ('text/x-scss', 'sass --scss {infile} {outfile}'),
+)
+
+COMPRESS_OFFLINE_CONTEXT = {
+    'STATIC_URL': 'STATIC_URL',
+}
+DEFAULT_FROM_EMAIL = 'no-reply@django-crm.micropyramid.com'
+MAIL_SENDER = 'AMAZON'
+INACTIVE_MAIL_SENDER = 'MANDRILL'
+
+AM_ACCESS_KEY = os.getenv('AM_ACCESS_KEY', '')
+AM_PASS_KEY = os.getenv('AM_PASS_KEY', '')
+AWS_REGION = os.getenv('AWS_REGION', '')
+
+MGUN_API_URL = os.getenv('MGUN_API_URL', '')
+MGUN_API_KEY = os.getenv('MGUN_API_KEY', '')
+
+SG_USER = os.getenv('SG_USER', '')
+SG_PWD = os.getenv('SG_PWD', '')
+
+MANDRILL_API_KEY = os.getenv('MANDRILL_API_KEY', '')
+
+ADMIN_EMAIL = "ducanhvna@outlook.com"
+
+try:
+    from .dev_settings import *
+except ImportError:
+    pass
