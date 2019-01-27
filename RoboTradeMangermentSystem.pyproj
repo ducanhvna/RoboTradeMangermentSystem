@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="common\templates\common\index.html" />
+    <Content Include="Procfile" />
     <Content Include="requirements.txt" />
     <Content Include="runtime.txt" />
     <Content Include="static\mysite.css" />
