@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+<form action="" method="post" novalidate="novalidate">
+{% csrf_token %}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">Account</div>
+            <div class="card-body">
+                <div class="card-title">
+                    <h3 class="text-center title-2">Thông tin cơ bản</h3>
+                </div>
+                <hr>
+                    <div class="form-group">
+                        <label for="cc-payment" class="control-label mb-1">Tên Account</label>
+                        {{ account_form.name }}
+                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cc-payment" class="control-label mb-1">Số tiền đã gửi</label>
+                        {{ account_form.deposit }}
+                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="cc-payment" class="control-label mb-1">Mô tả</label>
+                        {{ account_form.description }}
+                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                    </div>
+                    <div>
+                        <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                            <i class="fa fa-lock fa-lg"></i>&nbsp;
+                            <span id="payment-button-amount">{% if account_obj %} Save {% else %} Create {% endif %}</span>
+                            <span id="payment-button-sending" style="display:none;">Sending…</span>
+                        </button>
+                    </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+</form>
+
+{% endblock %}

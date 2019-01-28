@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'backtests',
     'robos',
 
+      'simple_pagination',
     'sorl.thumbnail',
     'bootstrap4',
+    'bootstrap_datepicker_plus',
     'compressor',
 ]
 
@@ -72,7 +74,7 @@ ROOT_URLCONF = 'RoboTradeMangermentSystem.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates"), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

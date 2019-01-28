@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+
+
+{% block content %}
+<div class="row">
+
+    <div class="col-lg-12">
+
+            <div class="card">
+
+                <div class="card-body">
+
+                    <div class="card-title">
+
+                        <h3 class="text-center title-2">Thông tin chi tiết</h3>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+
+                        <div class="col-lg-6">
+
+                            <h4>Name</h4>
+
+                            <label  class="control-label mb-1">{{ plugin_record.name }}</label>
+
+                            <h4>Kiểu Plugin</h4>
+
+                            <label  class="control-label mb-1">{{ plugin_record.source }}</label>
+
+                            <h4>Tên tác giả</h4>
+
+                            <label  class="control-label mb-1">{{ plugin_record.author }}</label>
+
+                            <h4>Thông tin tác giả</h4>
+
+                            <label  class="control-label mb-1">{{ plugin_record.about }}</label>
+
+                            <h4>Định nghĩa</h4>
+
+                            <label class="control-label mb-1">{{ plugin_record.description }}</label>
+
+
+
+                            <h4>Ghi chú</h4>
+
+                            <label for="cc-number" class="control-label mb-1">{{ plugin_record.note }}</label>
+
+                        </div>
+                      
+                        <div class="col-lg-12">
+                                <label class="control-label mb-1">Created by
+                                    <b>{{ plugin_record.created_by }}</b> 
+                                    created on
+                                    <i>
+                                        <b>
+                                                {{ plugin_record.created_on }}
+                                        </b>
+
+                                    </i>
+                                </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="top-campaign">
+            <h3 class="title-3 m-b-30">Thông tin setting</h3>
+            <div class="table-responsive">
+                <table class="table table-top-campaign">
+                        {% if settings|length > 0 %}
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên setting</th>
+                            <th>Kiểu</th>
+                            <th>Nguồn</th>
+                            <th>Giá trị mặc định</th>
+                            <th>Giới thiệu</th>
+                        </tr>
+                    </thead>
+                    {% endif %}
+                    <tbody>
+                        {% for setting in settings %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ setting.name }}</td>
+                            <td>{{ setting.kieu }}</td>
+                            <td>{{ setting.source }}</td>
+                            <td>{{ setting.defaultvalue }}</td>
+                            <td>{{ setting.overview }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            
+            
+            </div>    
+            {% ifequal settings|length 0 %}
+            <h6 class="text-center">No Setting Records Found</h6>
+          {% endifequal %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

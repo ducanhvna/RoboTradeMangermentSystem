@@ -53,5 +53,5 @@ class TestResult(models.Model):
 
     result_file = models.FileField(upload_to='results/%Y/%m/%d/', blank=True)
     data_file = models.FileField(upload_to='data/%Y/%m/%d/', blank=True)
-    created_on= models.DateTimeField( auto_now_add=True)
+    created_on= models.DateTimeField(auto_now_add=True)
     note = models.CharField("Ghi chú", max_length = 100, null=True, blank=True)    
