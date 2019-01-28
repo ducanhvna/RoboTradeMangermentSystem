@@ -137,8 +137,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_HOST = os.environ.get('DJANGO_STATIC_HOST', '')
 #STATIC_URL = '/static/'
