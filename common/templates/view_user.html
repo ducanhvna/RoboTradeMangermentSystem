@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header">
+                Thông tin <strong>User</strong>
+            </div>
+            <div class="card-body card-block">
+                <form action="" method="post" class="form-horizontal">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4>Họ và tên</h4>
+                        <label for="hf-email" class=" form-control-label">First Name</label>
+                        <label for="hf-email" class=" form-control-label">Last Name</label>
+                        <h4>Username</h4>
+                        <label for="hf-email" class=" form-control-label">User Name</label>
+                        <h4>Email</h4>
+                        <label for="hf-email" class=" form-control-label">Email</label>
+                        <h4>Role</h4>
+                        <label for="hf-email" class=" form-control-label">User Role</label>
+                        <h4>Mật khẩu</h4>
+                        <label for="hf-password" class=" form-control-label">Password</label>
+                        <h4>Ảnh đại diện</h4>
+                        <label for="hf-email" class=" form-control-label">Upload profile picture</label>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-sm">
+                    <i class="fa fa-dot-circle-o"></i> Submit
+                </button>
+                <button type="reset" class="btn btn-danger btn-sm">
+                    <i class="fa fa-ban"></i> Reset
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
