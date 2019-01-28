@@ -23,3 +23,4 @@ pip install django-gunicorn
 
 import dj_database_url
 import django_heroku
+pip install whitenoise
