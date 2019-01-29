@@ -8440,3 +8440,13 @@ env/Lib/site-packages/psycopg2_binary-2.7.7.dist-info/METADATA
 env/Lib/site-packages/psycopg2_binary-2.7.7.dist-info/RECORD
 env/Lib/site-packages/psycopg2_binary-2.7.7.dist-info/top_level.txt
 env/Lib/site-packages/psycopg2_binary-2.7.7.dist-info/WHEEL
+accounts/__pycache__/forms.cpython-36.pyc
+accounts/__pycache__/urls.cpython-36.pyc
+accounts/__pycache__/views.cpython-36.pyc
+backtests/__pycache__/forms.cpython-36.pyc
+backtests/__pycache__/urls.cpython-36.pyc
+backtests/__pycache__/views.cpython-36.pyc
+backtests/migrations/0002_auto_20190130_0018.py
+backtests/migrations/__pycache__/0002_auto_20190130_0018.cpython-36.pyc
+robos/__pycache__/urls.cpython-36.pyc
+robos/__pycache__/views.cpython-36.pyc
