@@ -47,6 +47,7 @@ class CreateAccountView(CreateView):
     form_class = AccountForm
     template_name = "accounts/create_accounts.html"
 
+  
     def get_context_data(self, **kwargs):
         context = super(CreateAccountView, self).get_context_data(**kwargs)
         context["account_form"] = context["form"]
@@ -67,6 +68,8 @@ class CreateAccountView(CreateView):
     def form_valid(self, form):
         # Save Account
         account_object = form.save(commit=False)
+        print("**************************************************************")
+        print(self.request.user)
         account_object.created_by = self.request.user
         account_object.balance = account_object.deposit
         account_object.save()
