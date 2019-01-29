@@ -60,14 +60,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-MIDDLEWARE_CLASSES = [
-# 'django.middleware.security.SecurityMiddleware',
-'whitenoise.middleware.WhiteNoiseMiddleware',
-#...
-]
+#MIDDLEWARE_CLASSES = [
+## 'django.middleware.security.SecurityMiddleware',
+#'whitenoise.middleware.WhiteNoiseMiddleware',
+##...
+#]
 
 ROOT_URLCONF = 'RoboTradeMangermentSystem.urls'
 
@@ -139,7 +139,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_HOST = os.environ.get('DJANGO_STATIC_HOST', '')
@@ -158,6 +158,7 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 COMPRESS_ROOT = BASE_DIR + '/static/'
 COMPRESS_URL = STATIC_URL
 COMPRESS_ENABLED = True
