@@ -29,40 +29,40 @@
                    
                     <div class="form-group">
                         <label for="cc-payment" class="control-label mb-1">Tên</label>
-                        {{ testitem_form.name }}
+                        {{ backtest_form.name }}
                         <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
                     </div>
                     <div class="form-group">
                         <label for="cc-name" class="control-label mb-1">Thời gian bắt đầu</label>
-                        {{ testitem_form.time_start}}
+                        {{ backtest_form.time_start}}
                         <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                     </div>
                     <div class="form-group">
                         <label for="cc-number" class="control-label mb-1">Thời gian kết thúc</label>
-                        {{ testitem_form.time_end}}
+                        {{ backtest_form.time_end}}
                         <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
                     </div>
                   
                     <div class="form-group">
                         <label  class="control-label mb-1">Trạng thái</label>
-                        {{ testitem_form.status}}
+                        {{ backtest_form.status}}
                         <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                     </div>
                     <div class="form-group">
                         <label  class="control-label mb-1">Giới thiệu</label>
-                        {{ testitem_form.overview}}
+                        {{ backtest_form.overview}}
                         <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
                     </div>
                     <div class="form-group">
                         <label class="control-label mb-1">Ghi chú</label>
-                        {{ testitem_form.note}}
+                        {{ backtest_form.note}}
                         <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
                     </div>
                    
                     <div>
                         <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
                             <i class="fa fa-lock fa-lg"></i>&nbsp;
-                            <span id="payment-button-amount">{% if testitem_obj %} Save {% else %} Next {% endif %}</span>
+                            <span id="payment-button-amount">{% if backtest_obj %} Save {% else %} Next {% endif %}</span>
                             <span id="payment-button-sending" style="display:none;">Sending…</span>
                         </button>
                     </div>

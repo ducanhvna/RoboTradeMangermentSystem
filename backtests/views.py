@@ -18,7 +18,7 @@ from .forms import BackTestForm
 class BackTestDetailView(DetailView):
     model = BackTest
     context_object_name = "testitem_record"
-    template_name = "view.html"
+    template_name = "backtests/view.html"
 
     def get_context_data(self, **kwargs):
         context = super(BackTestDetailView, self).get_context_data(**kwargs)
@@ -30,7 +30,7 @@ class ListBackTestView(TemplateView):
     # return HttpResponse(template.render(context, request))
 
     model = BackTest
-    template_name = "list.html"
+    template_name = "backtests/list.html"
 
     def get_queryset(self):
         queryset = self.model.objects.all().order_by('id')
@@ -38,7 +38,7 @@ class ListBackTestView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ListBackTestView, self).get_context_data(**kwargs)
-        context["testitems_list"] = self.get_queryset()
+        context["backtests_list"] = self.get_queryset()
         context["per_page"] = self.request.POST.get('per_page')
         return context
 
@@ -51,12 +51,12 @@ class CreateBackTestView(CreateView):
     #template_name = "create_testitems.html"
     model = BackTest
     form_class = BackTestForm
-    template_name = "create.html"
+    template_name = "backtests/create.html"
     
     def get_context_data(self, **kwargs):
         context = super(CreateBackTestView, self).get_context_data(**kwargs)
-        context["testitem_obj"] = self.object
-        context["testitem_form"] = context["form"]
+        context["backtest_obj"] = self.object
+        context["backtest_form"] = context["form"]
         return context
 
     def post(self, request, *args, **kwargs):
@@ -75,7 +75,7 @@ class CreateBackTestView(CreateView):
         test_object = form.save(commit=False)
         test_object.created_by = self.request.user
         test_object.save()
-        return redirect("testitems:list")
+        return redirect("backtests:list")
 
     def form_invalid(self, form):
         return self.render_to_response(
@@ -86,17 +86,17 @@ class CreateBackTestView(CreateView):
 class EditBackTestView(UpdateView):
     model = BackTest
     form_class = BackTestForm
-    template_name = "create.html"
+    template_name = "backtests/create.html"
     
     def get_context_data(self, **kwargs):
         context = super(EditBackTestView, self).get_context_data(**kwargs)
-        context["testitem_obj"] = self.object
-        context["testitem_form"] = context["form"]
+        context["backtest_obj"] = self.object
+        context["backtest_form"] = context["form"]
         return context
 
     def post(self, request, *args, **kwargs):
-        # update view m?i n�n object l� object hi?n t?i
-        self.object = request.object
+        
+        self.object = self.get_object()
         # l?y d? li?u t? form
         form = self.get_form()
         if form.is_valid(): 
@@ -111,7 +111,7 @@ class EditBackTestView(UpdateView):
         test_object = form.save(commit=False)
         test_object.created_by = self.request.user
         test_object.save()
-        return redirect("testitems:list")
+        return redirect("backtests:list")
 
     def form_invalid(self, form):
         print(form.errors)
