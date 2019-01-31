@@ -54,4 +54,22 @@ class TestResult(models.Model):
     result_file = models.FileField(upload_to='results/%Y/%m/%d/', blank=True)
     data_file = models.FileField(upload_to='data/%Y/%m/%d/', blank=True)
     created_on= models.DateTimeField(auto_now_add=True)
+    note = models.CharField("Ghi chú", max_length = 100, null=True, blank=True)  
+
+class SelectedBackTest(models.Model):
+
+    name= models.CharField("Tên item", max_length = 100)
+    time_start = models.DateTimeField('Time Start', null = True)
+    time_end = models.DateTimeField('Time End', null = True)
+    status= models.CharField('Trạng thái', max_length = 50, choices = BACKTESTTYPES)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_on= models.DateTimeField( auto_now_add=True)
+
+    completed_on= models.DateTimeField( null= True)
+
+    overview = models.CharField("Giới thiệu", max_length = 255, null=True, blank=True)
     note = models.CharField("Ghi chú", max_length = 100, null=True, blank=True)    
+    settings = models.ManyToManyField(Setting)
+    is_setting = models.BooleanField(default=False)
+    def __str__(self):
+        return self.name

@@ -12,9 +12,10 @@ from django.views.generic import (CreateView, UpdateView, TemplateView, DetailVi
 from django.http import HttpResponse
 from django.template import loader
 
-from .models import BackTest, TestSetting
-from .forms import BackTestForm, SettingTestForm
+from .models import BackTest, TestSetting, SelectedBackTest
+from .forms import BackTestForm
 from robos.models import Setting
+from robos.forms import SettingForm
 
 class BackTestDetailView(DetailView):
     model = BackTest
@@ -34,7 +35,9 @@ class ListBackTestView(TemplateView):
     template_name = "backtests/list.html"
 
     def get_queryset(self):
-        queryset = self.model.objects.all().order_by('id')
+        print("**************************************")
+        print(self.request.user.id)
+        queryset = self.model.objects.filter(created_by=self.request.user.id).order_by('id')
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -73,10 +76,26 @@ class CreateBackTestView(CreateView):
 
     def form_valid(self, form):
         # Save item
-        print ("*************************************valid")
         test_object = form.save(commit=False)
         test_object.created_by = self.request.user
-        test_object.save()
+        selectedBackTestList = SelectedBackTest.objects.filter(created_by=self.request.user.id, is_setting=True)
+        if selectedBackTestList.count() > 0:
+            selectedBackTest = selectedBackTestList[0]
+        else:
+            selectedBackTest = SelectedBackTest()
+
+
+        print(selectedBackTest)
+        selectedBackTest.name = test_object.name
+        selectedBackTest.time_start = test_object.time_start
+        selectedBackTest.time_end = test_object.time_end
+        selectedBackTest.status = test_object.status
+        selectedBackTest.created_by = test_object.created_by
+        selectedBackTest.overview = test_object.overview
+        selectedBackTest.note = test_object.note
+        selectedBackTest.is_setting = True
+        #save 
+        selectedBackTest.save()
         return redirect("backtests:add_setting")
 
     def form_invalid(self, form):
@@ -124,20 +143,14 @@ class EditBackTestView(UpdateView):
             self.get_context_data(form=form))
 
 class CreateBackTestSettingView(CreateView):
-    # template = loader.get_template('create_testitems.html')
-    # context ={}
-    # return HttpResponse(template.render(context, request))
-    #model = BackTest
-    # content = {}
-    #template_name = "create_testitems.html"
-    model = TestSetting
-    form_class = SettingTestForm
+    model = Setting
+    form_class = SettingForm
     template_name = "backtests/create_setting.html"
     
     def get_context_data(self, **kwargs):
         context = super(CreateBackTestSettingView, self).get_context_data(**kwargs)
-        context["backtest_obj"] = self.object
-        context["backtest_form"] = context["form"]
+        context["setting_obj"] = self.object
+        context["setting_form"] = context["form"]
         return context
 
     def post(self, request, *args, **kwargs):
@@ -154,22 +167,41 @@ class CreateBackTestSettingView(CreateView):
     def form_valid(self, form):
         # Save item
         test_object = form.save(commit=False)
-        test_object.created_by = self.request.user
-        print ("*************************************valid")
+        test_object.save()
+        # test_object.created_by = self.request.user
         request_post = self.request.POST
+            #get selecteBacktest
+        selectedBackTest = SelectedBackTest.objects.filter(created_by=self.request.user.id, is_setting=True)
+        if (selectedBackTest.count() > 0):
+            selectedBackTest[0].settings.add(test_object)
+            if request_post.get('next_btn'):
+                return redirect("backtests:add_setting")
+            else:
+                return redirect("backtests:edit_setting")
+        return redirect("backtests:list")
       
-        if request_post.get('next_btn'):
-
-            return redirect("backtests:add_setting")
-        
-        if request_post.get('save_btn'):
-            print ("*************************************save")
-            test_object.save()
-            return redirect("backtests:list")
-
     def form_invalid(self, form):
-        print ("*************************************invalid")
         return self.render_to_response(
             self.get_context_data(form=form))
 
+
+class EditBackTestSettingView(UpdateView):
+    """
+    setting value
+
+    """
+    model = Setting
+    context_object_name = "setting_list"
+    template_name = "backtests/edit_setting.html"
+    
+    def get_queryset(self):
+        selectedBackTest = SelectedBackTest.objects.filter(created_by=self.request.user.id, is_setting=True)
+        if (selectedBackTest.count() > 0):
+            queryset = selectedBackTest[0].settings
+            return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(EditBackTestSettingView, self).get_context_data(**kwargs)
+        context["setting_list"] = self.get_queryset()
+        return context
 

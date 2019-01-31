@@ -52,7 +52,7 @@ class Setting(models.Model):
     source = models.CharField('Nguồn', max_length = 50, choices = PLUGINTYPES, default='OTHER')
     defaultvalue = models.CharField('Giá trị mặc định', max_length = 100, null= True, blank = True)
     overview = models.CharField("Giới thiệu", max_length = 255, null=True, blank=True)
-    
+    plugin = models.ForeignKey(Plugin, on_delete=models.CASCADE, null=True, blank=True)
     note = models.CharField("Ghi chú", max_length = 100, null=True, blank=True)
     triger = models.CharField("Ràng buộc các giá trị bang Regex",  max_length = 255, null=True, blank=True)
 
