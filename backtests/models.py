@@ -32,7 +32,7 @@ class BackTest(models.Model):
     created_on= models.DateTimeField( auto_now_add=True)
 
     completed_on= models.DateTimeField( null= True)
-
+    settings = models.ManyToManyField(Setting, through='TestSetting', related_name='backtests')
     overview = models.CharField("Giới thiệu", max_length = 255, null=True, blank=True)
     note = models.CharField("Ghi chú", max_length = 100, null=True, blank=True)    
     
