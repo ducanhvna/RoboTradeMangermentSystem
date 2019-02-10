@@ -185,7 +185,7 @@ class CreateBackTestSettingView(CreateView):
             self.get_context_data(form=form))
 
 
-class EditBackTestSettingView(UpdateView):
+class EditBackTestSettingView(TemplateView):
     """
     setting value
 
@@ -197,7 +197,8 @@ class EditBackTestSettingView(UpdateView):
     def get_queryset(self):
         selectedBackTest = SelectedBackTest.objects.filter(created_by=self.request.user.id, is_setting=True)
         if (selectedBackTest.count() > 0):
-            queryset = selectedBackTest[0].settings
+            queryset = selectedBackTest[0].settings.all()
+
             return queryset
 
     def get_context_data(self, **kwargs):
@@ -205,3 +206,40 @@ class EditBackTestSettingView(UpdateView):
         context["setting_list"] = self.get_queryset()
         return context
 
+    def post(self, request, *args, **kwargs):
+        request_post = self.request.POST
+        selectedBackTest = SelectedBackTest.objects.filter(created_by=self.request.user.id, is_setting=True)
+        if (selectedBackTest.count() > 0):
+            #check if data is valid
+            setting_list = selectedBackTest[0].settings.all()
+            for index, setting in enumerate(setting_list):
+                textSetting = "text-input" + str(index + 1)
+                if not request_post.get(textSetting):
+                    return redirect("backtests:edit_setting")
+            # save data
+            # create backtest object
+            selectedBackTestObject = selectedBackTest[0]
+            backtest = BackTest()
+            backtest.name= selectedBackTestObject.name
+            backtest.time_start = selectedBackTestObject.time_start
+            backtest.time_end = selectedBackTestObject.time_end
+            backtest.status = selectedBackTestObject.status
+            backtest.created_by = selectedBackTestObject.created_by
+            backtest.created_on = selectedBackTestObject.created_on
+            backtest.completed_on = selectedBackTestObject.completed_on
+            backtest.overview = selectedBackTestObject.overview
+            backtest.note = selectedBackTestObject.note
+            backtest.save()
+
+            for index, setting in enumerate(setting_list):
+                textSetting = "text-input" + str(index + 1)
+
+                #tao testsetting
+
+                testSetting = TestSetting()
+                testSetting.backtest = backtest
+                testSetting.setting = selectedBackTestObject.settings.all()[index]
+                testSetting.settingvalue = request_post.get(textSetting)
+                testSetting.save()
+
+        return redirect("backtests:list")
