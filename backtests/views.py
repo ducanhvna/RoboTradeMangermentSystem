@@ -230,7 +230,8 @@ class EditBackTestSettingView(TemplateView):
             backtest.overview = selectedBackTestObject.overview
             backtest.note = selectedBackTestObject.note
             backtest.save()
-
+            selectedBackTestObject.is_setting = False
+            selectedBackTestObject.save()
             for index, setting in enumerate(setting_list):
                 textSetting = "text-input" + str(index + 1)
 
