@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'backtests',
     'robos',
 
-      'simple_pagination',
+    'simple_pagination',
     'sorl.thumbnail',
     'bootstrap4',
     'bootstrap_datepicker_plus',
