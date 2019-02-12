@@ -24,5 +24,6 @@ urlpatterns = [
     path('robos/', include('robos.urls')),
     path('backtests/', include('backtests.urls')),
     path('accounts/', include('accounts.urls')),
+    path('imports/', include('imports.urls')),
 ]
 
