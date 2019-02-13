@@ -17,12 +17,14 @@ from common.utils import BACKTESTTYPES
 class Trader(models.Model):
     """
     Attributes:
+        account: tên account 
         name: Tên trader
-        strategy: Chiến lược sử dụng
         time_start: Thời gian bắt đầu
         time_end: Thời gian kết thúc
-        result_file: Kết quả result
-        data_file: Kết quả real time trả về
+        created_by: user tạo trader
+        created_on: thời gian tạo
+        completed: thời gian hoàn thành
+        settings: tập settings cho trader
     """
     account = models.OneToOneField(Account, on_delete=models.CASCADE)
     name= models.CharField("Tên Trader", max_length = 100)

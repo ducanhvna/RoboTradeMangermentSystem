@@ -55,10 +55,16 @@ def AddBackTest(row_data):
             pluginobject.save()
 
         # tao setting
-        setting = Setting()
-        setting.plugin = pluginobject
-        setting.name = settingname
-        setting.save()
+        
+        settings = Setting.objects.filter(plugin = pluginobject, name = settingname)
+        if settings.count() > 0:
+            setting = settings[0]
+        else:
+
+            setting = Setting()
+            setting.plugin = pluginobject
+            setting.name = settingname
+            setting.save()
 
         # tạo testsetting
         testitem.backtest_settings.create(setting = setting, settingvalue = settingvalue)

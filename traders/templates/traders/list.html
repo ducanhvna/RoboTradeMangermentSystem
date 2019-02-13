@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% load paginate %}
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <!-- DATA TABLE -->
+        <h3 class="title-5 m-b-35">Danh sách trader</h3>
+        <div class="table-data__tool">
+            <div class="table-data__tool-left">
+               
+            </div>
+            <div class="table-data__tool-right">
+                <a class="au-btn au-btn-icon au-btn--green au-btn--small" href="#">
+                    <i class="zmdi zmdi-plus"></i>Add item</a>
+              
+            </div>
+        </div>
+        <div class="table-responsive table-responsive-data2">
+            <table class="table table-data2">
+                <thead>
+                    <tr>
+                        <th>Tên</th>
+                        <th>Account</th>
+                        <th>Thời gian bắt đầu</th>
+                        <th>Thời gian kết thúc</th>
+                        <th>Người tạo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% if per_page %}
+                        {% paginate per_page traders_list %}
+                      {% else%}
+                        {% paginate 10 traders_list %}
+                      {% endif %}
+                      
+                    {% for item in traders_list %}
+                    <tr class="tr-shadow">
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.account }}</td>
+                        <td>{{ item.time_start }}</td>
+                        <td>{{ item.time_end }}</td>
+                        <td>{{ item.created_by }}</td>
+                      
+                        <td>
+                            <div class="table-data-feature">
+                                <a class="item" data-toggle="tooltip" data-placement="top" title="Send" href="#">
+                                    <i class="zmdi zmdi-mail-send"></i>
+                                </a>
+                                <a class="item" data-toggle="tooltip" data-placement="top" title="Edit" href="#">
+                                    <i class="zmdi zmdi-edit"></i>
+                                </a>
+                                <a class="item" data-toggle="tooltip"  data-placement="top" title="Delete" href="#">
+                                    <i class="zmdi zmdi-delete"></i>
+                                </a>
+                                <a class="item" data-toggle="tooltip" data-placement="top" title="More" href="#">
+                                    <i class="zmdi zmdi-more"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+                   {% endfor %}
+                </tbody>
+            </table>
+            {% ifequal traders_list|length 0 %}
+            <h6 class="text-center">No Trader Records Found</h6>
+          {% endifequal %}
+          <div class="text-center row marl">
+            {% show_pages %}
+          </div>
+        </div>
+        <!-- END DATA TABLE -->
+    </div>
+</div>
+{% endblock %}
+{% block js_block %}
+<script type="text/javascript">
+  $('.item').click(function(e){
+    if ($(this).children(":first").attr('class') == "zmdi zmdi-delete") {
+          e.preventDefault()
+          url = $(this).attr('href')
+          if (!confirm('Are you sure you want to delete?'))
+              return;
+          window.location = $(this).attr('href')
+      }
+    
+  });
+  </script>
+{% endblock %}
