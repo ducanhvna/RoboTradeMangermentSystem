@@ -1,7 +1,7 @@
 {% extends "base.html" %}
-{% load static %}   
+{% load static %}
 {% load bootstrap4 %}
-
+{% load i18n %}
 {% block body_class %}template-homepage{% endblock %}
 {% block extra_css %}
 {{ form.media.css }}
@@ -11,9 +11,12 @@
 {{ form.media.js }}
 {% endblock %}
 
+{% block head %}
+{{ wizard.form.media }}
+{% endblock %}
 
 {% block content %}
-
+<p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
 <div class="row">
     <div class="col-lg-6">
         <div class="card">
@@ -25,54 +28,25 @@
                 <hr>
                 <form action="" method="post" novalidate="novalidate">
                     {% csrf_token %}
-                    <!-- {% bootstrap_form form %} -->
-                   
-                    <div class="form-group">
-                        <label for="cc-payment" class="control-label mb-1">Tên</label>
-                        {{ backtest_form.name }}
-                        <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="cc-name" class="control-label mb-1">Thời gian bắt đầu</label>
-                        {{ backtest_form.time_start}}
-                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="cc-number" class="control-label mb-1">Thời gian kết thúc</label>
-                        {{ backtest_form.time_end}}
-                        <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
-                    </div>
-                  
-                    <div class="form-group">
-                        <label  class="control-label mb-1">Trạng thái</label>
-                        {{ backtest_form.status}}
-                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="form-group">
-                        <label  class="control-label mb-1">Giới thiệu</label>
-                        {{ backtest_form.overview}}
-                        <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label mb-1">Ghi chú</label>
-                        {{ backtest_form.note}}
-                        <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
-                    </div>
-                   
-                    <div>
-                        <button id="payment-button" type="submit" name="next_btn"  value="Next" class="btn btn-lg btn-info btn-block">
-                            <i class="fa fa-lock fa-lg"></i>&nbsp;
-                            <span id="payment-button-amount">Next</span>
-                            <span id="payment-button-sending" style="display:none;">Sending…</span>
-                        </button>
-                        <!-- <button id="payment-button" type="submit" name="save_btn" value="Save" class="btn btn-lg btn-info btn-block">
-                            <i class="fa fa-lock fa-lg"></i>&nbsp;
-                            <span id="payment-button-amount">Save</span>
-                            <span id="payment-button-sending" style="display:none;">Sending…</span>
-                        </button> -->
-                    </div>
-                
-                    
+                    <table>
+                        {{ wizard.management_form }}
+                        {% if wizard.form.forms %}
+                        {{ wizard.form.management_form }}
+                        {% for form in wizard.form.forms %}
+                        {{ form }}
+                        {% endfor %}
+                        {% else %}
+                        {{ wizard.form }}
+                        {% endif %}
+                    </table>
+                    {% if wizard.steps.prev %}
+                    <button name="wizard_goto_step" type="submit"
+                        value="{{ wizard.steps.first }}">First</button>
+                    <button name="wizard_goto_step" type="submit"
+                        value="{{ wizard.steps.prev }}">Previous</button>
+                    {% endif %}
+                    <input type="submit" value="Next" />
+
                 </form>
             </div>
         </div>

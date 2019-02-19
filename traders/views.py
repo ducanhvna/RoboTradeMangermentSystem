@@ -40,56 +40,56 @@ class ListTraderView(TemplateView):
         context["traders_list"] = self.get_queryset()
         context["per_page"] = self.request.POST.get('per_page')
         return context
-
-# class CreateTraderView(CreateView):
-#     model = Trader
-#     form_class = TraderForm
-#     template_name = "traders/create.html"
+""" 
+class CreateTraderView(CreateView):
+    model = Trader
+    form_class = TraderForm
+    template_name = "traders/create.html"
     
-#     def get_context_data(self, **kwargs):
-#         context = super(CreateTraderView, self).get_context_data(**kwargs)
-#         context["trader_obj"] = self.object
-#         context["trader_form"] = context["form"]
-#         return context
+    def get_context_data(self, **kwargs):
+        context = super(CreateTraderView, self).get_context_data(**kwargs)
+        context["trader_obj"] = self.object
+        context["trader_form"] = context["form"]
+        return context
 
-#     def post(self, request, *args, **kwargs):
-#         # tạo view mới với object = None
-#         self.object = None
-#         form = self.get_form()
-#         if form.is_valid(): 
+    def post(self, request, *args, **kwargs):
+        # tạo view mới với object = None
+        self.object = None
+        form = self.get_form()
+        if form.is_valid(): 
             
-#             return self.form_valid(form)
-#         else:
+            return self.form_valid(form)
+        else:
 
-#             return self.form_invalid(form)
+            return self.form_invalid(form)
 
-#     def form_valid(self, form):
-#         # Save item
-#         test_object = form.save(commit=False)
-#         test_object.created_by = self.request.user
-#         selectedTraderList = SelectedTrader.objects.filter(created_by=self.request.user.id, is_setting=True)
-#         if selectedTraderList.count() > 0:
-#             selectedTrader = selectedTraderList[0]
-#         else:
-#             selectedTrader = SelectedTrader()
+    def form_valid(self, form):
+        # Save item
+        test_object = form.save(commit=False)
+        test_object.created_by = self.request.user
+        selectedTraderList = SelectedTrader.objects.filter(created_by=self.request.user.id, is_setting=True)
+        if selectedTraderList.count() > 0:
+            selectedTrader = selectedTraderList[0]
+        else:
+            selectedTrader = SelectedTrader()
 
 
-#         print(selectedTrader)
-#         selectedTrader.name = test_object.name
-#         selectedTrader.time_start = test_object.time_start
-#         selectedTrader.time_end = test_object.time_end
-#         selectedTrader.status = test_object.status
-#         selectedTrader.created_by = test_object.created_by
-#         selectedTrader.overview = test_object.overview
-#         selectedTrader.note = test_object.note
-#         selectedTrader.is_setting = True
-#         #save 
-#         selectedTrader.save()
-#         return redirect("traders:add_setting")
+        print(selectedTrader)
+        selectedTrader.name = test_object.name
+        selectedTrader.time_start = test_object.time_start
+        selectedTrader.time_end = test_object.time_end
+        selectedTrader.status = test_object.status
+        selectedTrader.created_by = test_object.created_by
+        selectedTrader.overview = test_object.overview
+        selectedTrader.note = test_object.note
+        selectedTrader.is_setting = True
+        #save 
+        selectedTrader.save()
+        return redirect("traders:add_setting")
 
-#     def form_invalid(self, form):
-#         return self.render_to_response(
-#             self.get_context_data(form=form))
+    def form_invalid(self, form):
+        return self.render_to_response(
+            self.get_context_data(form=form)) """
         
 
 

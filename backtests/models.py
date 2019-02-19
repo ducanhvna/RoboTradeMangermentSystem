@@ -27,7 +27,7 @@ class BackTest(models.Model):
     name= models.CharField("Tên item", max_length = 100)
     time_start = models.DateTimeField('Time Start', null = True)
     time_end = models.DateTimeField('Time End', null = True)
-    status= models.CharField('Trạng thái', max_length = 50, choices = BACKTESTTYPES)
+    status = models.CharField('Trạng thái', max_length = 50, choices = BACKTESTTYPES)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_on= models.DateTimeField( auto_now_add=True)
 

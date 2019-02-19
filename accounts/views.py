@@ -17,7 +17,7 @@ class ListAccountView(TemplateView):
     template_name = "accounts/list_accounts.html"
 
     def get_queryset(self):
-        queryset = self.model.objects.all().order_by('id')
+        queryset = self.model.objects.filter(created_by = self.request.user.id).order_by('id')
         return queryset
 
     def get_context_data(self, **kwargs):

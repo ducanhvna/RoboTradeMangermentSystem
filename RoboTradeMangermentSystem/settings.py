@@ -44,12 +44,14 @@ INSTALLED_APPS = [
     'traders',
     'backtests',
     'robos',
+    'cart',
     'imports',
     'simple_pagination',
     'sorl.thumbnail',
     'bootstrap4',
     'bootstrap_datepicker_plus',
     'compressor',
+    'formtools',
 ]
 
 MIDDLEWARE = [
@@ -149,6 +151,7 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+CART_SESSION_ID = 'cart'
 # AUTH_USER_MODEL = 'common.User'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), ]

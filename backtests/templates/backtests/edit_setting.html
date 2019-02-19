@@ -2,7 +2,12 @@
 {% load static %}
 {% block body_class %}template-homepage{% endblock %}
 
+{% block head %}
+{{ wizard.form.media }}
+{% endblock %}
+
 {% block content %}
+<p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
 <form action="" method="post" novalidate="novalidate">
     {% csrf_token %}
     <div class="row">
@@ -16,37 +21,25 @@
                     <hr>
                     <form action="" method="post" novalidate="novalidate">
                         {% csrf_token %}
-                        {% for setting in setting_list %}
-                        <div class="form-group">
-                            <label for="cc-payment" class="control-label mb-1">Tên Setting</label>
-                            {{ setting.name }}
-                            <span class="help-block field-validation-valid" data-valmsg-for="cc-name"
-                                data-valmsg-replace="true"></span>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="cc-payment" class="control-label mb-1">Tên plugin</label>
-                            {{ setting.plugin }}
-                            <span class="help-block field-validation-valid" data-valmsg-for="cc-name"
-                                data-valmsg-replace="true"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="cc-payment" class="control-label mb-1">Setting Value</label>
-
-                            <input type="text" id="text-input" name="text-input{{ forloop.counter }}" placeholder="Setting value" class="form-control">
-
-                            <span class="help-block field-validation-valid" data-valmsg-for="cc-name"
-                                data-valmsg-replace="true"></span>
-                        </div>
-
-                        {% endfor %}
-                        <div>
-                            <button id="payment-button" type="submit" name="save_btn"  value="Save" class="btn btn-lg btn-info btn-block">
-                                <i class="fa fa-lock fa-lg"></i>&nbsp;
-                                <span id="payment-button-amount">Save</span>
-                                <span id="payment-button-sending" style="display:none;">Sending…</span>
-                            </button>
-                        </div>
+                        
+                        <table>
+                            {{ wizard.management_form }}
+                            {% if wizard.form.forms %}
+                            {{ wizard.form.management_form }}
+                            {% for form in wizard.form.forms %}
+                            {{ form.as_ul }}
+                            {% endfor %}
+                            {% else %}
+                            {{ wizard.form }}
+                            {% endif %}
+                        </table>
+                        {% if wizard.steps.prev %}
+                        <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">First</button>
+                        <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Previous</button>
+                        {% endif %}
+                        <input type="submit" value="Next" />
+    
                     </form>
                 </div>
             </div>

@@ -14,12 +14,53 @@ class SettingForm(forms.ModelForm):
         # self.fields['teams'].required = False
         for key, value in self.fields.items():
             value.widget.attrs['placeholder'] = value.label
-
-
         
     class Meta:
         model = Setting
-        fields = ('name','kieu','source', 'plugin', 'note', 'overview','triger',
-        'defaultvalue')
+        fields = ('note', )
+        # widgets =  {'note': forms.HiddenInput(), }
     
-    
+
+class SelectSettingForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(SelectSettingForm, self).__init__(*args, **kwargs)
+        setting_list = Setting.objects.all()
+        for i, question in enumerate(setting_list):
+            self.fields['setting_%s' % i] = forms.BooleanField(initial=False, required=False)
+        # for field in self.fields.values():
+        #     field.widget.attrs = {"class": "form-control"}
+        # self.fields['description'].widget.attrs.update({'rows': '8'})
+        # self.fields['assigned_to'].queryset = assigned_users
+        # self.fields['assigned_to'].required = False
+        # self.fields['teams'].required = False
+        # for key, value in self.fields.items():
+        #     value.widget.attrs['placeholder'] = value.label
+        
+    # class Meta:
+    #     model = Setting
+    #     fields = ('note', )
+    #     widgets =  {'note': forms.HiddenInput(), }
+
+
+class SetValueSettingForm(forms.Form):
+
+    def __init__(self, *args, **kwargs):
+        super(SetValueSettingForm, self).__init__(*args, **kwargs)
+        setting_list = Setting.objects.all()
+        for i, question in enumerate(setting_list):
+            self.fields['setting_%s' % i] = forms.CharField(max_length=100)
+            self.initial['setting_%s' % i] = '0'
+        for field in self.fields.values():
+            field.widget.attrs = {"class": "form-control"}
+        # self.fields['description'].widget.attrs.update({'rows': '8'})
+        # self.fields['assigned_to'].queryset = assigned_users
+        # self.fields['assigned_to'].required = False
+        # self.fields['teams'].required = False
+        for key, value in self.fields.items():
+            value.widget.attrs['placeholder'] = 'Setting Value'
+        
+    # class Meta:
+    #     model = Setting
+    #     fields = ('note', )
+    #     widgets =  {'note': forms.HiddenInput(), }
