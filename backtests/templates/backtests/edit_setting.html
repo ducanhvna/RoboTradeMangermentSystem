@@ -1,29 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
+{% load common_tags %}
+{{ List|indexer:x }}
+{{ object|diction:atrribute }}
+
 {% block body_class %}template-homepage{% endblock %}
 
 {% block head %}
 {{ wizard.form.media }}
 {% endblock %}
 
+
+
 {% block content %}
 <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
-<form action="" method="post" novalidate="novalidate">
-    {% csrf_token %}
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="card">
-                <div class="card-header">Account</div>
-                <div class="card-body">
-                    <div class="card-title">
-                        <h3 class="text-center title-2">Thông tin cơ bản</h3>
-                    </div>
-                    <hr>
-                    <form action="" method="post" novalidate="novalidate">
-                        {% csrf_token %}
-
-                        
-                        <table>
+<div class="row">
+    <div class="col-lg-12">
+        <form action="" method="post" novalidate="novalidate">
+            {% csrf_token %}
+            <!-- <table>
                             {{ wizard.management_form }}
                             {% if wizard.form.forms %}
                             {{ wizard.form.management_form }}
@@ -33,19 +28,58 @@
                             {% else %}
                             {{ wizard.form }}
                             {% endif %}
-                        </table>
-                        {% if wizard.steps.prev %}
-                        <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">First</button>
-                        <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Previous</button>
-                        {% endif %}
-                        <input type="submit" value="Next" />
-    
-                    </form>
+                        </table> -->
+            <div class="user-data m-b-30">
+                <h3 class="title-3 m-b-30">
+                    Set giá trị</h3>
+                <div class="table-responsive table-data">
+                    <table class="table">
+                        {{ wizard.management_form }}
+                        <thead>
+                            <tr>
+                                <td>Giá trị setting
+                                </td>
+                                <td>Name</td>
+                                <td>Source</td>
+                                <td>Plugin</td>
+                                <td>Overview</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for setting_field in wizard.form.get_setting_fields %}
+                            {% if setting_field.field.required %}
+                            <tr>
+                                <td>
+                                    <!-- <label class="au-checkbox"> -->
+                                    {{ setting_field }}
+                                    <!-- <span class="au-checkmark"></span>
+                                                        </label> -->
+
+                                </td>
+                                <td>{{ settings_list|indexer:forloop.counter0|diction:"name" }}</td>
+                                <td>{{ settings_list|indexer:forloop.counter0|diction:"source" }}</td>
+                                <td>{{ settings_list|indexer:forloop.counter0|diction:"plugin" }}</td>
+                                <td>{{ settings_list|indexer:forloop.counter0|diction:"overview" }}</td>
+
+                            </tr>
+                            <tr class="spacer"></tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
+            {% if wizard.steps.prev %}
+            <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}"
+                class="btn btn-success btn-sm">First</button>
+            <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}"
+                class="btn btn-success btn-sm">Previous</button>
+            {% endif %}
+            <input type="submit" value="Next" class="btn btn-success btn-sm" />
 
+        </form>
     </div>
-</form>
+</div>
 
 {% endblock %}

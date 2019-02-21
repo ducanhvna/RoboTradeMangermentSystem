@@ -26,8 +26,8 @@ class SelectSettingForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(SelectSettingForm, self).__init__(*args, **kwargs)
         setting_list = Setting.objects.all()
-        for i, question in enumerate(setting_list):
-            self.fields['setting_%s' % i] = forms.BooleanField(initial=False, required=False)
+        for i, setting in enumerate(setting_list):
+            self.fields['setting_%s' % setting.id] = forms.BooleanField(initial=False, required=False)
         # for field in self.fields.values():
         #     field.widget.attrs = {"class": "form-control"}
         # self.fields['description'].widget.attrs.update({'rows': '8'})
@@ -42,15 +42,19 @@ class SelectSettingForm(forms.Form):
     #     fields = ('note', )
     #     widgets =  {'note': forms.HiddenInput(), }
 
+    def get_setting_fields(self):
+        for field_name in self.fields:
+            if field_name.startswith('setting_'):
+                yield self[field_name]
 
 class SetValueSettingForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(SetValueSettingForm, self).__init__(*args, **kwargs)
         setting_list = Setting.objects.all()
-        for i, question in enumerate(setting_list):
-            self.fields['setting_%s' % i] = forms.CharField(max_length=100)
-            self.initial['setting_%s' % i] = '0'
+        for i, setting in enumerate(setting_list):
+            self.fields['setting_%s' % setting.id] = forms.CharField(max_length=100, required = False)
+            # self.initial['setting_%s' % setting.id] = '0'
         for field in self.fields.values():
             field.widget.attrs = {"class": "form-control"}
         # self.fields['description'].widget.attrs.update({'rows': '8'})
@@ -64,3 +68,7 @@ class SetValueSettingForm(forms.Form):
     #     model = Setting
     #     fields = ('note', )
     #     widgets =  {'note': forms.HiddenInput(), }
+    def get_setting_fields(self):
+        for field_name in self.fields:
+            if field_name.startswith('setting_'):
+                yield self[field_name]

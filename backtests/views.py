@@ -52,12 +52,7 @@ class ListBackTestView(TemplateView):
         return context
 
 class CreateBackTestView(CreateView):
-    # template = loader.get_template('create_testitems.html')
-    # context ={}
-    # return HttpResponse(template.render(context, request))
-    #model = BackTest
-    # content = {}
-    #template_name = "create_testitems.html"
+
     model = BackTest
     form_class = BackTestForm
     template_name = "backtests/create.html"
@@ -170,117 +165,6 @@ def order_backtest(request):
     cart.clear()
     return redirect("backtests:list")
 
-class CreateBackTestSettingView(CreateView):
-    model = Setting
-    form_class = SettingForm
-    template_name = "backtests/create_setting.html"
-    
-    def get_context_data(self, **kwargs):
-        context = super(CreateBackTestSettingView, self).get_context_data(**kwargs)
-        context["setting_obj"] = self.object
-        context["setting_form"] = context["form"]
-        return context
-
-    def post(self, request, *args, **kwargs):
-        # t?o view m?i n�n object = None
-        self.object = None
-        form = self.get_form()
-        if form.is_valid(): 
-            
-            return self.form_valid(request, form)
-        else:
-
-            return self.form_invalid(form)
-
-    def form_valid(self, request, form):
-        # Save item
-        setting_object = form.save(commit=False)
-        # test_object.save()
-        # test_object.created_by = self.request.user
-        request_post = self.request.POST
-            #get selecteBacktest
-        # selectedBackTest = SelectedBackTest.objects.filter(created_by=self.request.user.id, is_setting=True)
-        # get cart in session
-        cart = Cart(request)
-        # if (selectedBackTest.count() > 0):
-        #     selectedBackTest[0].settings.add(test_object)
-        cart.add_backtest_setting(setting_object)
-        if request_post.get('next_btn'):
-            return redirect("backtests:add_setting")
-        else:
-            return redirect("backtests:edit_setting")
-        return redirect("backtests:list")
-      
-    def form_invalid(self, form):
-        return self.render_to_response(
-            self.get_context_data(form=form))
-
-
-class EditBackTestSettingView(TemplateView):
-    """
-    setting value
-
-    """
-    model = Setting
-    context_object_name = "setting_list"
-    template_name = "backtests/edit_setting.html"
-    
-    def get_queryset(self):
-        selectedBackTest = SelectedBackTest.objects.filter(created_by=self.request.user.id, is_setting=True)
-        if (selectedBackTest.count() > 0):
-            queryset = selectedBackTest[0].settings.all()
-
-            return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super(EditBackTestSettingView, self).get_context_data(**kwargs)
-        context["setting_list"] = self.get_queryset()
-        return context
-
-    def post(self, request, *args, **kwargs):
-        request_post = self.request.POST
-        # selectedBackTest = SelectedBackTest.objects.filter(created_by=self.request.user.id, is_setting=True)
-        cart = Cart(request)
-        if cart['backtest']:
-            #check if data is valid
-            setting_list = selectedBackTest[0].settings.all()
-            for index, setting in enumerate(setting_list):
-                textSetting = "text-input" + str(index + 1)
-                if not request_post.get(textSetting):
-                    return redirect("backtests:edit_setting")
-            # save data
-            # create backtest object
-            # selectedBackTestObject = selectedBackTest[0]
-            backtest = BackTest()
-            backtest.name= selectedBackTestObject.name
-            backtest.time_start = selectedBackTestObject.time_start
-            backtest.time_end = selectedBackTestObject.time_end
-            backtest.status = selectedBackTestObject.status
-            backtest.created_by = selectedBackTestObject.created_by
-            backtest.created_on = selectedBackTestObject.created_on
-            backtest.completed_on = selectedBackTestObject.completed_on
-            backtest.overview = selectedBackTestObject.overview
-            backtest.note = selectedBackTestObject.note
-            backtest.save()
-            selectedBackTestObject.is_setting = False
-            selectedBackTestObject.save()
-            for index, setting in enumerate(setting_list):
-                textSetting = "text-input" + str(index + 1)
-
-                #tao testsetting
-
-                testSetting = TestSetting()
-                testSetting.backtest = backtest
-                testSetting.setting = selectedBackTestObject.settings.all()[index]
-                testSetting.settingvalue = request_post.get(textSetting)
-                testSetting.save()
-
-            # xoa selected Backtest object
-            selectedBackTestObject.delete()
-
-        return redirect("backtests:list")
-
-
 FORMS = [("create_backtest", BackTestForm),
          ("select_setting", SelectSettingForm),
          ("edit_setting", SetValueSettingForm)]
@@ -301,7 +185,7 @@ class CreateBackTestWizardView(SessionWizardView):
 # customer context data
     def get_context_data(self, form, **kwargs):
         context = super(CreateBackTestWizardView, self).get_context_data(form=form, **kwargs)
-        if self.steps.current == 'select_setting':
+        if self.steps.current == 'select_setting' or self.steps.current =='edit_setting':
             settings_list = Setting.objects.all()
             context.update({'settings_list': settings_list})
         return context
@@ -310,7 +194,7 @@ class CreateBackTestWizardView(SessionWizardView):
         # do_something_with_the_form_data(form_list)
         # create backtest and save to database
 
-        print("Done***********************8")
+        
         i = 0
         for form in form_list:
             if i == 0:
@@ -355,8 +239,7 @@ class CreateBackTestWizardView(SessionWizardView):
             step1_data = self.get_cleaned_data_for_step('select_setting')
             for key , value in step1_data.items():
                 # if is check then display
-                if value == False:
-                    form.fields[key].widget = forms.HiddenInput()
-                else:
-                    form.initial[key] = ''
+                if value == True:
+                    form.fields[key].required = True
+                
         return form

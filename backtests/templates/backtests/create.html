@@ -40,13 +40,14 @@
                         {% endif %}
                     </table>
                     {% if wizard.steps.prev %}
-                    <button name="wizard_goto_step" type="submit"
-                        value="{{ wizard.steps.first }}">First</button>
-                    <button name="wizard_goto_step" type="submit"
-                        value="{{ wizard.steps.prev }}">Previous</button>
-                    {% endif %}
-                    <input type="submit" value="Next" />
-
+                    <div class="card-footer">
+                        <button name="wizard_goto_step" type="submit" class="btn btn-success btn-sm"
+                            value="{{ wizard.steps.first }}">First</button>
+                        <button name="wizard_goto_step" type="submit" class="btn btn-success btn-sm"
+                            value="{{ wizard.steps.prev }}">Previous</button>
+                        {% endif %}
+                        <input type="submit" value="Next" class="btn btn-success btn-sm" />
+                    </div>
                 </form>
             </div>
         </div>
