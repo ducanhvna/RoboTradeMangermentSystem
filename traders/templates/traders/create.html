@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}   
 {% load bootstrap4 %}
+{% load i18n %}
 
 {% block body_class %}template-homepage{% endblock %}
 {% block extra_css %}
@@ -13,63 +14,62 @@
 
 
 {% block content %}
-
+<p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
 <div class="row">
     <div class="col-lg-6">
         <div class="card">
-            <div class="card-header">Thêm test tiem</div>
+            <div class="card-header">Thêm trader tiem</div>
             <div class="card-body">
                 <div class="card-title">
-                    <h3 class="text-center title-2">Thông tin test item</h3>
+                    <h3 class="text-center title-2">Thông tin trader item</h3>
                 </div>
                 <hr>
                 <form action="" method="post" novalidate="novalidate">
                     {% csrf_token %}
                     <!-- {% bootstrap_form form %} -->
-                   
+                    {{ wizard.management_form }}
                     <div class="form-group">
                         <label for="cc-payment" class="control-label mb-1">Tên</label>
-                        {{ backtest_form.name }}
+                        {{ wizard.form.name }}
                         <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
                     </div>
                     <div class="form-group">
+                        <label for="cc-payment" class="control-label mb-1">Tên Account</label>
+                        {{ wizard.form.account }}
+                        <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
+                        <span class="error">{{ wizard.form.errors }}</span>
+                    </div>
+                    <div class="form-group">
                         <label for="cc-name" class="control-label mb-1">Thời gian bắt đầu</label>
-                        {{ backtest_form.time_start}}
+                        {{ wizard.form.time_start}}
                         <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                     </div>
                     <div class="form-group">
                         <label for="cc-number" class="control-label mb-1">Thời gian kết thúc</label>
-                        {{ backtest_form.time_end}}
+                        {{ wizard.form.time_end}}
                         <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
                     </div>
                   
                     <div class="form-group">
-                        <label  class="control-label mb-1">Trạng thái</label>
-                        {{ backtest_form.status}}
-                        <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="form-group">
                         <label  class="control-label mb-1">Giới thiệu</label>
-                        {{ backtest_form.overview}}
+                        {{ wizard.form.overview}}
                         <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
                     </div>
                     <div class="form-group">
                         <label class="control-label mb-1">Ghi chú</label>
-                        {{ backtest_form.note}}
+                        {{ wizard.form.note}}
                         <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
                     </div>
                    
-                    <div>
-                        <button id="payment-button" type="submit" name="next_btn"  value="Next" class="btn btn-lg btn-info btn-block">
-                            <i class="fa fa-lock fa-lg"></i>&nbsp;
-                            <span id="payment-button-amount">Next</span>
-                            <span id="payment-button-sending" style="display:none;">Sending…</span>
-                        </button>
-                        <!-- <button id="payment-button" type="submit" name="save_btn" value="Save" class="btn btn-lg btn-info btn-block">
-                            <i class="fa fa-lock fa-lg"></i>&nbsp;
-                            <span id="payment-button-amount">Save</span>
-                            <span id="payment-button-sending" style="display:none;">Sending…</span>
-                        </button> -->
+                   
+                    <div class="card-footer">
+                        {% if wizard.steps.prev %}
+                        <button name="wizard_goto_step" type="submit" class="btn btn-success btn-sm"
+                            value="{{ wizard.steps.first }}">First</button>
+                        <button name="wizard_goto_step" type="submit" class="btn btn-success btn-sm"
+                            value="{{ wizard.steps.prev }}">Previous</button>
+                        {% endif %}
+                        <input type="submit" value="Next" class="btn btn-success btn-sm" />
                     </div>
                 
                     

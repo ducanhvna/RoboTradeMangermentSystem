@@ -11,11 +11,13 @@ from django.views.generic import (CreateView, UpdateView, TemplateView, DetailVi
 # Create your views here.
 from django.http import HttpResponse
 from django.template import loader
+from formtools.wizard.views import SessionWizardView
 
 from .models import Trader, TraderSetting
-
+from .forms import TraderForm
+from accounts.models import Account
 from robos.models import Setting
-from robos.forms import SettingForm
+from robos.forms import SettingForm, SelectSettingForm, SetValueSettingForm
 
 # class TraderDetailView(DetailView):
 #     model = Trader
@@ -53,7 +55,7 @@ class CreateTraderView(CreateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        # tạo view mới với object = None
+        tạo view mới với object = None
         self.object = None
         form = self.get_form()
         if form.is_valid(): 
@@ -64,7 +66,7 @@ class CreateTraderView(CreateView):
             return self.form_invalid(form)
 
     def form_valid(self, form):
-        # Save item
+        Save item
         test_object = form.save(commit=False)
         test_object.created_by = self.request.user
         selectedTraderList = SelectedTrader.objects.filter(created_by=self.request.user.id, is_setting=True)
@@ -83,16 +85,16 @@ class CreateTraderView(CreateView):
         selectedTrader.overview = test_object.overview
         selectedTrader.note = test_object.note
         selectedTrader.is_setting = True
-        #save 
+        save 
         selectedTrader.save()
         return redirect("traders:add_setting")
 
     def form_invalid(self, form):
         return self.render_to_response(
-            self.get_context_data(form=form)) """
+            self.get_context_data(form=form))
         
 
-
+ """
 # class EditTraderView(UpdateView):
 #     model = Trader
 #     form_class = TraderForm
@@ -233,3 +235,87 @@ class CreateTraderView(CreateView):
         #         testSetting.save()
 
         # return redirect("traders:list")
+
+FORMS = [("create_trader", TraderForm),
+         ("select_setting", SelectSettingForm),
+         ("edit_setting", SetValueSettingForm)]
+
+TEMPLATES = {"create_trader": "traders/create.html",
+             "select_setting": "traders/create_setting.html",
+             "edit_setting": "traders/edit_setting.html"
+            }
+
+
+
+class CreateTraderWizardView(SessionWizardView):
+    form_list = FORMS
+    #custome template name for each form
+    def get_template_names(self):
+        return [TEMPLATES[self.steps.current]]
+
+# customer context data
+    def get_context_data(self, form, **kwargs):
+        context = super(CreateTraderWizardView, self).get_context_data(form=form, **kwargs)
+        if self.steps.current == 'select_setting' or self.steps.current =='edit_setting':
+            settings_list = Setting.objects.all()
+            context.update({'settings_list': settings_list})
+        return context
+
+    def done(self, form_list, **kwargs):
+        # do_something_with_the_form_data(form_list)
+        # create trader and save to database
+
+        
+        i = 0
+        for form in form_list:
+            if i == 0:
+                #trader form
+
+                trader_object = form.save(commit=False)
+                trader_object.created_by = self.request.user
+                trader_object.save()
+
+            if i == 1:
+                selectSetting = form.cleaned_data
+            
+            if i == 2:
+                valueSetting = form.cleaned_data
+
+            i = i + 1
+        # tao testsetting
+        setting_List = Setting.objects.all()
+        print(type(setting_List))
+        i = 0
+        for key, value in selectSetting.items():
+            if  value == True:
+                traderSetting = TraderSetting()
+                traderSetting.trader = trader_object
+                traderSetting.setting = setting_List[i]
+                traderSetting.settingvalue = valueSetting[key]
+                traderSetting.save()
+            
+            i = i + 1
+
+
+        return redirect("traders:list")
+
+    def get_form(self, step=None, data=None, files=None):
+        form = super().get_form(step, data, files)
+
+        if step is None:
+            step = self.steps.current
+
+        if step == 'create_trader':
+            user =  self.request.user
+            account_obj  = Account.objects.filter(created_by=user.id, is_active=False)
+            print("^^^^^^^^^^^^^^^^^^^^^^^")
+            print(account_obj)
+            form.initial['account'] = account_obj[0]
+        if step == 'edit_setting':
+            step1_data = self.get_cleaned_data_for_step('select_setting')
+            for key , value in step1_data.items():
+                # if is check then display
+                if value == True:
+                    form.fields[key].required = True
+                
+        return form

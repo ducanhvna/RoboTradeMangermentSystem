@@ -56,7 +56,6 @@ class TestResult(models.Model):
     created_on= models.DateTimeField(auto_now_add=True)
     note = models.CharField("Ghi chú", max_length = 100, null=True, blank=True)  
 
-class SelectedBackTest(models.Model):
 
     name= models.CharField("Tên item", max_length = 100)
     time_start = models.DateTimeField('Time Start', null = True)

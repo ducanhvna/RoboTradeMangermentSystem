@@ -16,7 +16,7 @@ from django import forms
 
 from formtools.wizard.views import SessionWizardView
 
-from .models import BackTest, TestSetting, SelectedBackTest
+from .models import BackTest, TestSetting
 from .forms import BackTestForm
 from robos.models import Setting
 from robos.forms import SettingForm, SelectSettingForm, SetValueSettingForm
