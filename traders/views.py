@@ -273,6 +273,10 @@ class CreateTraderWizardView(SessionWizardView):
 
                 trader_object = form.save(commit=False)
                 trader_object.created_by = self.request.user
+                print("(((((((((((((((((((((((((((((((((((((")
+                print(form.cleaned_data.get('account_name'))
+                account_obj  = Account.objects.filter(created_by=self.request.user.id, is_active=False)
+                trader_object.account = account_obj[2]
                 trader_object.save()
 
             if i == 1:
@@ -310,7 +314,7 @@ class CreateTraderWizardView(SessionWizardView):
             account_obj  = Account.objects.filter(created_by=user.id, is_active=False)
             print("^^^^^^^^^^^^^^^^^^^^^^^")
             print(account_obj)
-            form.initial['account'] = account_obj[0]
+            form.initial['account_name'] = account_obj[0].name
         if step == 'edit_setting':
             step1_data = self.get_cleaned_data_for_step('select_setting')
             for key , value in step1_data.items():
