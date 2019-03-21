@@ -8454,3 +8454,4 @@ env/
 accounts/__pycache__/__init__.cpython-37.pyc
 backtests/__pycache__/__init__.cpython-37.pyc
 common/__pycache__/__init__.cpython-37.pyc
+*.pyc
