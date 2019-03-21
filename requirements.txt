@@ -12,7 +12,6 @@ et-xmlfile==1.0.1
 gunicorn==19.9.0
 jdcal==1.4
 openpyxl==2.5.14
-pip==19.0.1
 psycopg2==2.7.7
 psycopg2-binary==2.7.7
 pytz==2018.9
